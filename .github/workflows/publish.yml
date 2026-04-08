@@ -34,6 +34,5 @@ jobs:
       run: dotnet pack "Delta Utilities Activities.csproj" --configuration Release --output bin/Release
 
     - name: Publish to UiPath Orchestrator
-      # ส่งไฟล์ขึ้น Cloud Feed
-      run: |
-        nuget push bin\Release\*.nupkg ${{ secrets.UIPATH_API_KEY }} -Source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v3/feed" -SkipDuplicate
+      run: nuget push bin\Release\*.nupkg ${{ secrets.UIPATH_API_KEY }} -Source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v3/feed" -SkipDuplicate
+
