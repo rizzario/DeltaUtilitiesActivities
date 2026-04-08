@@ -40,12 +40,9 @@ jobs:
       # สั่งให้วางไฟล์ไว้ที่ปัจจุบันที่แกยืนอยู่เลย (.)
       run: dotnet pack "Delta Utilities Activities.csproj" --configuration Release --output .
 
-    - name: Deploy to Orchestrator
-      uses: uipath/uipath-automation-package-action@v4
-      with:
-        # ใช้ API Key ตัวเดิมที่ Joe มี
-        orchestrator_url: 'https://cloud.uipath.com/deltafmclgjf/DefaultTenant/'
-        api_key: ${{ secrets.UIPATH_API_KEY }}
-        # ระบุไฟล์ .nupkg ที่เรา Pack ไว้ (ถ้าใช้ท่า dotnet pack . ไฟล์จะอยู่หน้าบ้าน)
-        package_path: '.' 
-        # ไม่ต้องใส่ folder_name เพื่อให้มันเข้า Tenant Libraries
+    - name: Publish to UiPath Orchestrator
+      shell: pwsh
+      run: |
+        $apiKey = '${{ secrets.UIPATH_API_KEY }}'
+        # URL นี้คือ "ประตูหลัง" ของ Orchestrator Cloud สำหรับส่งของเข้า Tenant Libraries
+        dotnet nuget push "*.nupkg" --api-key $apiKey --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v3/feed" --skip-duplicate
