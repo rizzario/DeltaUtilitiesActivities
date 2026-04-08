@@ -7,6 +7,9 @@ on:
 jobs:
   build_and_publish:
     runs-on: windows-latest # สำคัญ! ต้องใช้ Windows เพราะเราเขียน .NET Framework
+    permissions: # เพิ่มส่วนนี้เข้าไป
+      contents: read
+      packages: write
 
     steps:
     - name: Checkout Code
@@ -33,8 +36,11 @@ jobs:
       # สั่งให้มัน Pack แล้วเอาไฟล์มาวางไว้ที่ "หน้าบ้าน" (Root) เลย หาง่ายแน่นอน!
       run: dotnet pack "Delta Utilities Activities.csproj" --configuration Release --output .
 
-    - name: Publish to UiPath Orchestrator
+    - name: Publish to GitHub Packages
       shell: pwsh
       run: |
-        $apiKey = '${{ secrets.UIPATH_API_KEY }}'
-        dotnet nuget push "*.nupkg" --api-key $apiKey --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/packages" --skip-duplicate
+        # 1. ลงทะเบียน GitHub เป็นแหล่งเก็บ NuGet (Source)
+        dotnet nuget add source --username "${{ github.actor }}" --password "${{ secrets.GITHUB_TOKEN }}" --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+        
+        # 2. Push ไฟล์ขึ้นไป (ใช้ GITHUB_TOKEN ที่มีให้ฟรีๆ อยู่แล้ว)
+        dotnet nuget push "out/*.nupkg" --api-key "${{ secrets.GITHUB_TOKEN }}" --source "github" --skip-duplicate
