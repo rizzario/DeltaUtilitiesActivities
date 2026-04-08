@@ -37,4 +37,4 @@ jobs:
       shell: pwsh
       run: |
         $apiKey = '${{ secrets.UIPATH_API_KEY }}'
-        dotnet nuget push "*.nupkg" --api-key $apiKey --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v3/feed" --skip-duplicate
+        dotnet nuget push "*.nupkg" --api-key $apiKey --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v2" --skip-duplicate
