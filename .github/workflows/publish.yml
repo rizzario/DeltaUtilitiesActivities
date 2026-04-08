@@ -34,7 +34,6 @@ jobs:
       run: dotnet pack "Delta Utilities Activities.csproj" --configuration Release --output bin/Release
 
     - name: Publish to UiPath Orchestrator
-      # ใช้ dotnet nuget push แทน และใส่ฟันหนูครอบ API Key กันอักขระพิเศษ
       run: |
-        dotnet nuget push "bin/Release/*.nupkg" --api-key "${{ secrets.UIPATH_API_KEY }}" --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v3/feed" --skip-duplicate
-
+        $package = Get-ChildItem -Path "bin/Release/**/*.nupkg" | Select-Object -First 1 -ExpandProperty FullName
+        dotnet nuget push $package --api-key "${{ secrets.UIPATH_API_KEY }}" --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v3/feed" --skip-duplicate
