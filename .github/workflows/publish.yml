@@ -40,9 +40,11 @@ jobs:
       # สั่งให้วางไฟล์ไว้ที่ปัจจุบันที่แกยืนอยู่เลย (.)
       run: dotnet pack "Delta Utilities Activities.csproj" --configuration Release --output .
 
-    - name: Publish to UiPath Orchestrator
+    - name: Publish to GitHub Packages
       shell: pwsh
       run: |
-        $apiKey = '${{ secrets.UIPATH_API_KEY }}'
-        # URL นี้คือ "ประตูหลัง" ของ Orchestrator Cloud สำหรับส่งของเข้า Tenant Libraries
-        dotnet nuget push "*.nupkg" --api-key $apiKey --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v3/feed" --skip-duplicate
+        # 1. เพิ่ม Source (ถ้ามีอยู่แล้วมันจะแจ้งเตือนเฉยๆ ไม่เป็นไร)
+        dotnet nuget add source --username "${{ github.actor }}" --password "${{ secrets.GITHUB_TOKEN }}" --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --configfile nuget.config || $true
+        
+        # 2. ชี้ไปที่ไฟล์ .nupkg ที่อยู่ใน Root เลย
+        dotnet nuget push "*.nupkg" --api-key "${{ secrets.GITHUB_TOKEN }}" --source "github" --skip-duplicate
