@@ -34,5 +34,4 @@ jobs:
       run: dotnet pack "Delta Utilities Activities.csproj" --configuration Release --output .
 
     - name: Publish to UiPath Orchestrator
-      # ในเมื่อไฟล์อยู่หน้าบ้าน (Root) เราก็สั่ง Push มันตรงๆ แบบนี้เลยครับ
-      run: dotnet nuget push "*.nupkg" --api-key "${{ secrets.UIPATH_API_KEY }}" --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v3/feed" --skip-duplicate
+      run: dotnet nuget push "*.nupkg" --api-key "${{ secrets.UIPATH_API_KEY }}" --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v2" --skip-duplicate
