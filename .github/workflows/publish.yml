@@ -41,11 +41,10 @@ jobs:
       run: dotnet pack "Delta Utilities Activities.csproj" --configuration Release --output .
 
     - name: Publish to UiPath Orchestrator
-      shell: pwsh
-      run: |
-        # ใช้ Single Quote ครอบ Key กันเหนียวเรื่องอักขระพิเศษ
-        $apiKey = '${{ secrets.UIPATH_API_KEY }}'
-        
-        # ใช้ URL แบบ V2 ที่คุยง่ายที่สุดสำหรับระบบ Cloud
-        # และชี้ไปที่ *.nupkg ที่เรา Pack ไว้หน้าบ้าน (.)
-        dotnet nuget push "*.nupkg" --api-key $apiKey --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v2" --skip-duplicate
+      uses: uipath/uipath-automation-cloud-action@v1
+      with:
+        uipath_api_key: ${{ secrets.UIPATH_API_KEY }}
+        uipath_organization_name: 'deltafmclgjf'
+        uipath_tenant_name: 'DefaultTenant'
+        # ไม่ต้องระบุ folder เพื่อให้มันเข้าที่ Tenant > Packages > Libraries
+        package_path: '.'
