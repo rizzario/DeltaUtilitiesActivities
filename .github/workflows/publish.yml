@@ -21,14 +21,14 @@ jobs:
       uses: microsoft/setup-msbuild@v1
 
     - name: Restore NuGet Packages
-      run: nuget restore Delta Utilities Activities.sln
+      run: nuget restore "Delta Utilities Activities.sln"
 
     - name: Build Solution
-      run: msbuild Delta Utilities Activities.sln /p:Configuration=Release
+      run: msbuild "Delta Utilities Activities.sln" /p:Configuration=Release
 
     - name: Pack Activity (Create .nupkg)
       # ขั้นตอนนี้จะสร้างไฟล์ .nupkg จากโปรเจกต์
-      run: nuget pack Delta.Logging.Activities\Delta Utilities Activities.csproj -Properties Configuration=Release -OutputDirectory bin\Release
+      run: nuget pack "Delta.Utilities.Activities\Delta Utilities Activities.csproj" -Properties Configuration=Release -OutputDirectory bin\Release
 
     - name: Publish to UiPath Orchestrator
       # ส่งไฟล์ขึ้น Cloud Feed
