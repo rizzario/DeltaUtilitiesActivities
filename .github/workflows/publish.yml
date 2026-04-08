@@ -34,6 +34,9 @@ jobs:
       run: dotnet pack "Delta Utilities Activities.csproj" --configuration Release --output bin/Release
 
     - name: Publish to UiPath Orchestrator
+      # ใช้ท่าไม้ตาย PowerShell ดึงชื่อไฟล์ออกมาตรงๆ กันพลาดเรื่องชื่อเวอร์ชัน
+      shell: pwsh
       run: |
-        $package = Get-ChildItem -Path "bin/Release/**/*.nupkg" | Select-Object -First 1 -ExpandProperty FullName
-        dotnet nuget push $package --api-key "${{ secrets.UIPATH_API_KEY }}" --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v3/feed" --skip-duplicate
+        $packageFile = Get-ChildItem -Path "./out/*.nupkg" | Select-Object -First 1 -ExpandProperty FullName
+        Write-Host "Publishing package: $packageFile"
+        dotnet nuget push "$packageFile" --api-key "${{ secrets.UIPATH_API_KEY }}" --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v3/feed" --skip-duplicate
