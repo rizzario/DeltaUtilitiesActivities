@@ -1,0 +1,36 @@
+name: Build and Publish Delta Activities
+
+on:
+  push:
+    branches: [ main ] # รันอัตโนมัติเมื่อ Push ขึ้น main
+
+jobs:
+  build_and_publish:
+    runs-on: windows-latest # สำคัญ! ต้องใช้ Windows เพราะเราเขียน .NET Framework
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1
+      with:
+        nuget-version: 'latest'
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Restore NuGet Packages
+      run: nuget restore Delta.Logging.Activities.sln
+
+    - name: Build Solution
+      run: msbuild Delta.Logging.Activities.sln /p:Configuration=Release
+
+    - name: Pack Activity (Create .nupkg)
+      # ขั้นตอนนี้จะสร้างไฟล์ .nupkg จากโปรเจกต์
+      run: nuget pack Delta.Logging.Activities\Delta.Logging.Activities.csproj -Properties Configuration=Release -OutputDirectory bin\Release
+
+    - name: Publish to UiPath Orchestrator
+      # ส่งไฟล์ขึ้น Cloud Feed
+      run: |
+        nuget push bin\Release\*.nupkg ${{ secrets.UIPATH_API_KEY }} -Source "https://cloud.uipath.com/YOUR_ORG/YOUR_TENANT/orchestrator_/nuget/v3/feed" -SkipDuplicate
