@@ -30,9 +30,10 @@ jobs:
       run: msbuild "Delta Utilities Activities.sln" /p:Configuration=Release
 
     - name: Pack Activity (Create .nupkg)
-      # สั่งให้ค้นหาไฟล์ .csproj ที่อยู่ในโฟลเดอร์ไหนก็ได้ แล้วสั่ง Pack เลย
+      # 1. ใช้เทคนิค '|| $true' เพื่อให้มันข้าม Error ถ้ามีโฟลเดอร์อยู่แล้ว
+      # 2. ใช้ Wildcard แบบเจาะจงที่หน้าไฟล์ .csproj เลย
       run: |
-        mkdir -p bin/Release
+        if (!(Test-Path "bin/Release")) { New-Item -ItemType Directory -Path "bin/Release" }
         nuget pack **/*.csproj -Properties Configuration=Release -OutputDirectory bin/Release
 
     - name: Publish to UiPath Orchestrator
