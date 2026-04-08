@@ -30,9 +30,8 @@ jobs:
       run: msbuild "Delta Utilities Activities.sln" /p:Configuration=Release
 
     - name: Pack Activity (Create .nupkg)
-      # ใช้ฟันหนูครอบ Path แบบ Windows Style (Backslash)
-      # และชี้ไปที่ไฟล์ .csproj ตรงๆ (ยอมสะกดชื่อมันอีกรอบ)
-      run: nuget pack "Delta Utilities Activities\Delta Utilities Activities.csproj" -Properties Configuration=Release -OutputDirectory "bin\Release"
+      # ในเมื่อมันอยู่ข้างกัน ก็สั่ง pack มันตรงๆ เลยครับ!
+      run: nuget pack "Delta Utilities Activities.csproj" -Properties Configuration=Release -OutputDirectory bin\Release
 
     - name: Publish to UiPath Orchestrator
       # ส่งไฟล์ขึ้น Cloud Feed
