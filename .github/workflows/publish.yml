@@ -30,11 +30,9 @@ jobs:
       run: msbuild "Delta Utilities Activities.sln" /p:Configuration=Release
 
     - name: Pack Activity (Create .nupkg)
-      # 1. ใช้เทคนิค '|| $true' เพื่อให้มันข้าม Error ถ้ามีโฟลเดอร์อยู่แล้ว
-      # 2. ใช้ Wildcard แบบเจาะจงที่หน้าไฟล์ .csproj เลย
-      run: |
-        if (!(Test-Path "bin/Release")) { New-Item -ItemType Directory -Path "bin/Release" }
-        nuget pack **/*.csproj -Properties Configuration=Release -OutputDirectory bin/Release
+      # ใช้ฟันหนูครอบ Path แบบ Windows Style (Backslash)
+      # และชี้ไปที่ไฟล์ .csproj ตรงๆ (ยอมสะกดชื่อมันอีกรอบ)
+      run: nuget pack "Delta Utilities Activities\Delta Utilities Activities.csproj" -Properties Configuration=Release -OutputDirectory "bin\Release"
 
     - name: Publish to UiPath Orchestrator
       # ส่งไฟล์ขึ้น Cloud Feed
