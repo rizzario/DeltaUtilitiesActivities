@@ -34,4 +34,5 @@ jobs:
       run: dotnet pack "Delta Utilities Activities.csproj" --configuration Release --output .
 
     - name: Publish to UiPath Orchestrator
-      run: dotnet nuget push "*.nupkg" --api-key "${{ secrets.UIPATH_API_KEY }}" --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v2" --skip-duplicate
+      run: |
+        dotnet nuget push "*.nupkg" --api-key "${{ secrets.UIPATH_API_KEY }}" --source "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/orchestrator_/nuget/v3/feed/index.json" --skip-duplicate
