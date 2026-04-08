@@ -30,8 +30,8 @@ jobs:
       run: msbuild "Delta Utilities Activities.sln" /p:Configuration=Release
 
     - name: Pack Activity (Create .nupkg)
-      # ในเมื่อมันอยู่ข้างกัน ก็สั่ง pack มันตรงๆ เลยครับ!
-      run: nuget pack "Delta Utilities Activities.csproj" -Properties Configuration=Release -OutputDirectory bin\Release
+      # เปลี่ยนมาใช้ dotnet pack แทน
+      run: dotnet pack "Delta Utilities Activities.csproj" --configuration Release --output bin/Release
 
     - name: Publish to UiPath Orchestrator
       # ส่งไฟล์ขึ้น Cloud Feed
