@@ -30,8 +30,11 @@ jobs:
       run: msbuild "Delta Utilities Activities.sln" /p:Configuration=Release
 
     - name: Pack Activity (Create .nupkg)
-      # ขั้นตอนนี้จะสร้างไฟล์ .nupkg จากโปรเจกต์
-      run: nuget pack "Delta Utilities Activities\Delta Utilities Activities.csproj" -Properties Configuration=Release -OutputDirectory bin\Release
+      # 1. เข้าไปในโฟลเดอร์โปรเจกต์
+      # 2. สั่ง pack โดยใช้ชื่อไฟล์ตรงๆ (ไม่ต้องระบุ path โฟลเดอร์ซ้ำ)
+      run: |
+        cd "Delta Utilities Activities"
+        nuget pack "Delta Utilities Activities.csproj" -Properties Configuration=Release -OutputDirectory ..\bin\Release
 
     - name: Publish to UiPath Orchestrator
       # ส่งไฟล์ขึ้น Cloud Feed
