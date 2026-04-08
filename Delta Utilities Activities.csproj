@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <OutputType>Library</OutputType>
+	  <TargetFramework>net6.0-windows</TargetFramework>
+      <ImplicitUsings>enable</ImplicitUsings>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <PackageId>Delta.Utilities.Activities</PackageId>
+	  <Version>1.0.2-alpha</Version>
+	  <Authors>Kittipong Kittirungcharoen</Authors>
+	  <Company>Delta Electronics (Thailand) Co., Ltd.</Company>
+	  <Description>Utilities activities for Delta projects.</Description>
+	  <PackageIcon>DeltaLogo.png</PackageIcon>
+	  <PackageOutputPath>bin\Debug\</PackageOutputPath>
+
+	  <IncludeBuildOutput>true</IncludeBuildOutput>
+	  <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <None Include="Resources\Icons\DeltaLogo.png" Pack="true" PackagePath="\" />
+	  
+	  <None Remove="Resources\ActivitiesMetadata.json" />
+	  <None Remove="Resources\Icons\database_logo.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <EmbeddedResource Include="Resources\Icons\database_logo.svg"></EmbeddedResource>
+	  <EmbeddedResource Include="Resources\ActivitiesMetadata.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Activities.ViewModels" Version="1.0.0-20250625.2" />
+    <PackageReference Include="UiPath.Activities.Api" Version="24.10.1" PrivateAssets="All" ExcludeAssets="runtime" />
+    <PackageReference Include="UiPath.Workflow" Version="6.0.0-20240401-07" PrivateAssets="All" ExcludeAssets="runtime" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <CustomToolNamespace>Delta_Utilities_Activities</CustomToolNamespace>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>Delta_Utilities_Activities</CustomToolNamespace>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

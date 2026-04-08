@@ -1,0 +1,14 @@
+{
+  "resourceManagerName": "Delta_Utilities_Activities.Resources.Resources",
+  "activities": [
+    {
+      "fullName": "Delta_Utilities_Activities.CreateSecureConnectionString",
+      "shortName": "Create Secure Connection String",
+      "displayNameKey": "CreateSecureConnectionString_DisplayName",
+      "descriptionKey": "CreateSecureConnectionString_Description",
+      "categoryKey": "Database",
+      "iconKey": "database_logo.svg",
+      "viewModelType": "Delta_Utilities_Activities.ViewModels.CreateSecureConnectionStringViewModel"
+    }
+  ]
+}
