@@ -48,17 +48,3 @@ jobs:
         
         # 2. ชี้ไปที่ไฟล์ .nupkg ที่อยู่ใน Root เลย
         dotnet nuget push "*.nupkg" --api-key "${{ secrets.GITHUB_TOKEN }}" --source "github" --skip-duplicate
-        
-    - name: Install UiPath CLI
-      run: dotnet tool install --global UiPath.CLI
-
-    - name: Deploy to Orchestrator
-      shell: pwsh
-      run: |
-        # ใช้คำสั่ง uipath pack และ deploy ตรงๆ
-        # ท่านี้มันจะหาทางเข้าบ้านให้เองโดยใช้แค่ URL หน้าบ้านครับ
-        uipath deploy `
-          --url "https://cloud.uipath.com/deltafmclgjf/DefaultTenant/" `
-          --apiKey "${{ secrets.UIPATH_API_KEY }}" `
-          --itemPath "out" `
-          --tenant "DefaultTenant"
